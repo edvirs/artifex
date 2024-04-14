@@ -2,3 +2,5 @@ tensorflow
 matplotlib
 pandas
 numpy
+opencv-python
+alive-progress
