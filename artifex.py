@@ -7,11 +7,21 @@ import numpy as np
 
 from lfw_dataset import LWF
 
+def getEncoder():
+  pass
+
+
+def getDiffusion():
+  pass 
+
+
+def getDecoder():
+  pass
+
+
 def main():
   dataset = LWF("dataset/")
-  #dataset.loadImages2file(dataset.names, dataset.indexes)
-  dataset.loadFromFile()
 
-
+  
 if __name__ == "__main__":
   main()

@@ -1,4 +1,4 @@
-import os
+import math
 import pandas as pd
 import cv2
 from Dataset import Dataset
@@ -16,14 +16,11 @@ class LWF(Dataset):
     self.names = pd.read_csv(datasetPath + 'people.csv')
     self.indexes = self.names["images"].values
     self.names = self.names["name"].values
+    self.loadImages(self.names, self.indexes)
 
 
   def load_data(self):
     return self.data
-  
-
-  def img2data(self):
-    pass 
 
 
   def getImgPath(self, name, index):
@@ -36,30 +33,37 @@ class LWF(Dataset):
     with open(self.datasetPath + "dataset", "rb") as file:
       data = pickle.load(file)
 
-    print(data)
     print(np.shape(data))
 
-    data = np.reshape()
+    return data
 
 
-  def loadImages2file(self, names, indexes):
-    data = np.zeros((1, 250, 250, 3))
-    print(np.shape(data))
-
-    count = 100
+  def loadImages(self, names, indexes, save2file = False):
+    data = []
+    count = len(names)
 
     print("Loadind images from dataset...")
     with alive_bar(count) as bar:
       for i in range(count):
-        for j in range(int(indexes[i])):
-          path = self.getImgPath(names[i], j + 1)
-          img = cv2.imread(path, 0)
-          img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) 
-          data = np.append(data, img)
+
+        if not math.isnan(indexes[i]):
+
+          for j in range(int(indexes[i])):
+
+            path = self.getImgPath(names[i], j + 1)
+            img = cv2.imread(path)
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            img = img / 255
+            data.append(img)
+
         bar()
-    
-    print(np.shape(data))
-    print("Saving data into file ...")
-    with open(self.datasetPath + "dataset", "wb") as file:
-      pickle.dump(data, file)
-    print("Done")
+
+    data = np.array(data)
+
+    if save2file:
+      print("Saving data into file ...")
+      with open(self.datasetPath + "dataset", "wb") as file:
+        pickle.dump(data, file)
+      print("Done")
+    else:
+      self.data = data

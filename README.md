@@ -15,3 +15,10 @@ THEN
 ```
 pip install -r requirements.txt
 ```
+
+## Datasets used:
+* [LFW - People](https://anvilproject.org/guides/content/creating-links) \
+  (Used to train a face generation model)\
+  \
+  [people.cvs](https://www.kaggle.com/code/jake126/face-detection-using-cnn-with-the-lfw-dataset/input?select=people.csv) \
+  (Names of all faces in this dataset with number of images for each name)
