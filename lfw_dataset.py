@@ -11,12 +11,16 @@ class LWF(Dataset):
   indexes = []
   names = []
 
-  def __init__(self, datasetPath):
+  def __init__(self, datasetPath, interval = (0, 0), count = None):
+    x, y = interval
     self.datasetPath = datasetPath
     self.names = pd.read_csv(datasetPath + 'people.csv')
+    #self.names = self.names[x:y]
     self.indexes = self.names["images"].values
     self.names = self.names["name"].values
+    self.count = count
     self.loadImages(self.names, self.indexes)
+    
 
 
   def load_data(self):
@@ -40,8 +44,11 @@ class LWF(Dataset):
 
   def loadImages(self, names, indexes, save2file = False):
     data = []
-    #count = len(names)
-    count = 10
+
+    if self.count == None:
+      count = len(names)
+    else:
+      count = self.count
 
     print("Loadind images from dataset...")
     with alive_bar(count) as bar:
