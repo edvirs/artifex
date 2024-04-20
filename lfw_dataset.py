@@ -40,7 +40,8 @@ class LWF(Dataset):
 
   def loadImages(self, names, indexes, save2file = False):
     data = []
-    count = len(names)
+    #count = len(names)
+    count = 10
 
     print("Loadind images from dataset...")
     with alive_bar(count) as bar:
@@ -53,12 +54,13 @@ class LWF(Dataset):
             path = self.getImgPath(names[i], j + 1)
             img = cv2.imread(path)
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            img = img[:240, :240]
             img = img / 255
             data.append(img)
 
         bar()
 
-    data = np.array(data)
+    data = np.array(data).astype("float32")
 
     if save2file:
       print("Saving data into file ...")
